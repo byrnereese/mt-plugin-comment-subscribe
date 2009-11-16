@@ -1,7 +1,7 @@
 # Comment Subscribe, a plugin for Movable Type
 
 Authors: Robert Synnott. [Now being maintained by Byrne Reese and others on GitHub](http://github.com/byrnereese/mt-plugin-comment-subscribe).  
-License: [Artistic License 2.0](http://www.opensource.org/licenses/artistic-license-2.0.php)
+License: [Artistic License 2.0](http://www.opensource.org/licenses/artistic-license-2.0.php)  
 Site: <http://plugins.movabletype.org/comment-subscribe/>
 
 ## Overview
@@ -38,15 +38,16 @@ Add the following to the comment form (often this is thee "Comment Form" templat
 ## Installation
 
 1. Move the Comment Subscribe plugin directory to the MT `plugins` directory.
+
+    Should look like this when installed:
+
+        $MT_HOME/
+            plugins/
+                CommentSubscribe/
+                    (plugin files here)
+
 2. If possible, change the permissions on `$MT_HOME/plugins/CommentSubscribe/commentsubscribe.cgi` to 755 (executable for all users and additionaly read and write for owner). If you don't do this, the plugin will still work, but users will not be able to unsubscribe.
 3. Login to MT and continue when prompted to upgrade your database which will create a table to accomodate subscriptions.
-
-Should look like this when installed:
-
-    $MT_HOME/
-        plugins/
-            CommentSubscribe/
-                (plugin files here)
 
 [More in-depth plugin installation instructions](http://tinyurl.com/easy-plugin-install).
 
