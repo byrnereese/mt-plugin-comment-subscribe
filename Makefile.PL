@@ -2,6 +2,6 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME            => 'Comment Subscribe',
-    VERSION         => '1.0.3',
+    VERSION         => '1.1',
     DISTNAME        => 'CommentSubscribe',
 );
