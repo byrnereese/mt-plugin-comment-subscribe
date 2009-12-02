@@ -12,3 +12,7 @@ object_types:
 callbacks:
   MT::Comment::post_save: $CommentSubscribe::CommentSubscribe::Plugin::process_new_comment
 
+applications:
+  cms:
+    methods:
+      unsub: $CommentSubscribe::CommentSubscribe::Plugin::unsub
