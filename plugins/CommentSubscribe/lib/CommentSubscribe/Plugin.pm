@@ -1,39 +1,6 @@
-package MT::Plugin::CommentSubscribe;
+package CommentSubscribe::Plugin;
 
 use strict;
-use base qw( MT::Plugin );
-
-use MT;
-
-
-my $plugin = MT::Plugin::CommentSubscribe->new({
-    id          => 'CommentSubscribe',
-    key         => 'comment-subscribe',
-    name        => 'Comment Subscribe',
-    description => "Allows viewers to subscribe to recieve emails every time a comment is posted for a given entry.",
-    version     => '1.0.3',
-    schema_version => '0.1',
-    author_name => "Robert Synnott",
-    # No point in including links that don't work.
-#    doc_link => "http://myblog.rsynnott.com/software/commentsubscribe.html",
-#    author_link => "http://myblog.rsynnott.com/",
-#    plugin_link => "http://myblog.rsynnott.com/software/commentsubscribe.html",
-});
-
-MT->add_plugin($plugin);
-
-sub init_registry {
-    my $plugin = shift;
-
-    $plugin->registry({
-    'object_types' => {
-        'commentsubscriptions' => 'CommentSubscribe::CommentSubscriptions',
-    },
-    'callbacks' => {
-        'MT::Comment::post_save' => \&process_new_comment,
-    },
-    });
-}
 
 sub process_new_comment {
     my ($cb, $obj, $original) = @_;
@@ -109,3 +76,5 @@ sub process_new_comment {
         }
     }
 }
+
+1;
