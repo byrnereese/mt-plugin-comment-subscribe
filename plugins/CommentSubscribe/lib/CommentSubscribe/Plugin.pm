@@ -5,6 +5,8 @@ use strict;
 sub process_new_comment {
     my ($cb, $obj, $original) = @_;
 
+    my $plugin  = MT->component('CommentSubscribe');
+
     # If the object is visible ("published"), then this is not spam.
     # Check for spam content first! This way, the CommentSubscribe
     # table isn't flooded with spam email addresses.
@@ -44,7 +46,8 @@ sub process_new_comment {
         });
     
         # Changed to use translate method for L10N
-        my $subject = $plugin->translate("([_1]) New Comment on [_2]", $blog->name, $entry->title);
+        my $subject = $plugin->translate("([_1]) [_2] posted a new comment on '[_3]'", 
+                                         $blog->name, $obj->author, $entry->title);
     
         require MT::Mail;
         foreach my $addy (@addresses){
@@ -56,26 +59,26 @@ sub process_new_comment {
                 );
         
             # Here we build the email from a template rather than raw text. More powerful, easier to edit, L10N 
-            my $base = $app->config('CGIPath');
-            $base .= '/' unless $base =~ m!/$!;
             my $param = {
                 entry_title     => $entry->title,
-                # Using entry_permalink so that it generates the "preferred" link
                 entry_permalink => $entry->permalink,
                 comment_author  => $obj->author,
                 comment_text    => $obj->text,
-                unsub_link      => $app->uri(
-                    'mode' => 'unsub',
-                    'id'   => $addy->id,
-                )
+                unsub_link      => $app->base . $app->uri . "?__mode=unsub&id=".$addy->id
             };
-        
+
             # load_tmpl loads it from the plugin's tmpl directory
             my $body = $app->build_page( $plugin->load_tmpl('commentsubscribe_notify.tmpl'), $param);
 
             if($addy->email ne $email){ # Don't sent to the commenter
+                if (MT->config->DebugMode > 0) {
+                    MT->log({
+                        blog_id => $blog->id,
+                        message => "Sending comment notification to: " . $head{'To'}
+                            });
+                }
                 MT::Mail->send(\%head, $body);
-              }
+            }
         }
     }
 }
@@ -83,13 +86,21 @@ sub process_new_comment {
 sub unsub {
     my $app = shift;
 
-    my $action = $app->{query}->param('action');
     my $id     = int($app->{query}->param('id'));
+    my $plugin  = MT->component('CommentSubscribe');
     
-    if($action eq "unsub" && $id){
+    if ($id) {
         my $obj = MT->model('commentsubscriptions')->load( $id );
+        my $entry = MT->model('entry')->load( $obj->entry_id );
+        my $blog = MT->model('blog')->load( $obj->blog_id );
+        MT->log({ blog_id => $blog->id, 
+                  message => "Unsubscribing ".$obj->email." from ".$entry->title });
         $obj->remove();
-        return "You are now unsubscribed from this entry's comments.";
+        return $app->build_page( $plugin->load_tmpl('commentsubscribe_unsub.tmpl'), {
+            entry_title => $entry->title,
+            entry_url => $entry->permalink,
+            blog_name   => $blog->name
+        });
     }
     
     return "I'm afraid I don't understand that.";

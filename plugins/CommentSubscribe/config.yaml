@@ -2,7 +2,7 @@ id: 'CommentSubscribe'
 key: 'comment-subscribe'
 name: 'Comment Subscribe'
 description: "Allows viewers to subscribe to recieve emails every time a comment is posted for a given entry."
-version: 1.1
+version: 1.2
 schema_version: 0.1
 author_name : "Robert Synnott, Byrne Reese"
 
@@ -13,6 +13,6 @@ callbacks:
   MT::Comment::post_save: $CommentSubscribe::CommentSubscribe::Plugin::process_new_comment
 
 applications:
-  cms:
+  comments:
     methods:
       unsub: $CommentSubscribe::CommentSubscribe::Plugin::unsub
