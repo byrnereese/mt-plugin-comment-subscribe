@@ -13,7 +13,6 @@ Allows a commenter to subscribe to future comments on an entry.
 
 * MT 4.x
 
-
 ## Features
 
 * Adds ability for commenters to subscribe to receive notification email for each comment left after the comment when they choose to subscribe.
@@ -37,25 +36,13 @@ Add the following to the comment form (often this is thee "Comment Form" templat
 
 ## Installation
 
-1. Move the Comment Subscribe plugin directory to the MT `plugins` directory.
+To install this plugin follow the instructions found here:
 
-    Should look like this when installed:
-
-        $MT_HOME/
-            plugins/
-                CommentSubscribe/
-                    (plugin files here)
-
-2. If possible, change the permissions on `$MT_HOME/plugins/CommentSubscribe/commentsubscribe.cgi` to 755 (executable for all users and additionaly read and write for owner). If you don't do this, the plugin will still work, but users will not be able to unsubscribe.
-3. Login to MT and continue when prompted to upgrade your database which will create a table to accomodate subscriptions.
-
-[More in-depth plugin installation instructions](http://tinyurl.com/easy-plugin-install).
-
+http://tinyurl.com/easy-plugin-install
 
 ## Desired Features Wish List
 
 * add ability for email "from address" to optionally be the system email address rather than the email address of the commenter leaving a new comment.
-
 
 ## Support
 
