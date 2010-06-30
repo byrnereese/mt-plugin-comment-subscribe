@@ -1,6 +1,7 @@
 package CommentSubscribe::Plugin;
 
 use strict;
+use String::Random qw();
 
 sub process_new_comment {
     my ( $cb, $obj, $original ) = @_;
@@ -34,9 +35,11 @@ sub process_new_comment {
               )
             {
                 my $csub = MT->model('commentsubscriptions')->new;
+                my $rand = random_string('000000000000',[ 'A'..'Z', 'a'..'z' ]);
                 $csub->blog_id($blog_id);
                 $csub->entry_id($entry_id);
                 $csub->email($email);
+                $csub->uniqkey($rand);
                 $csub->save;
             }
         }
@@ -86,8 +89,8 @@ sub process_new_comment {
                 comment_text    => $obj->text,
                 unsub_link      => $app->base
                   . $app->uri
-                  . "?__mode=unsub&id="
-                  . $addy->id
+                  . "?__mode=unsub&key="
+                  . $addy->uniqkey
             };
 
             # load_tmpl loads it from the plugin's tmpl directory
@@ -124,11 +127,13 @@ sub process_new_comment {
 sub unsub {
     my $app = shift;
 
-    my $id     = int( $app->{query}->param('id') );
+    my $key    = $app->{query}->param('key');
     my $plugin = MT->component('CommentSubscribe');
 
-    if ($id) {
-        my $obj   = MT->model('commentsubscriptions')->load($id);
+    if ($app->{query}->param('id')) {
+        return $app->error("Our apologies, but the unsubscribe link you clicked on has been disabled for security reasons. To unsubscribe from this blog, please wait for another comment notification email with an updated link, or contact the system administrator. We sincerely apologize for this inconvenience.");
+    } elsif ($key) {
+        my $obj   = MT->model('commentsubscriptions')->load({ uniqkey => $key });
         my $entry = MT->model('entry')->load( $obj->entry_id );
         my $blog  = MT->model('blog')->load( $obj->blog_id );
         MT->log(

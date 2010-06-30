@@ -12,11 +12,13 @@ __PACKAGE__->install_properties(
             'blog_id'  => 'integer not null',
             'entry_id' => 'integer not null',
             'email'    => 'string(255)',
+            'uniqkey'  => 'string(30)',
         },
         indexes => {
             'blog_id'  => 1,
             'entry_id' => 1,
             'email'    => 1,
+            'uniqkey'  => 1,
         },
         primary_key => 'id',
         audit       => 1,
