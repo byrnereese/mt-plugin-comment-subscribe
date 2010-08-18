@@ -1,7 +1,7 @@
 package CommentSubscribe::Plugin;
 
 use strict;
-use String::Random qw();
+use String::Random qw( random_string );
 
 sub process_new_comment {
     my ( $cb, $obj, $original ) = @_;

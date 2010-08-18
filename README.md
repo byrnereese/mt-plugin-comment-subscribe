@@ -1,6 +1,6 @@
 # Comment Subscribe, a plugin for Movable Type
 
-Authors: Robert Synnott. [Now being maintained by Byrne Reese and others on GitHub](http://github.com/byrnereese/mt-plugin-comment-subscribe).  
+Authors: Robert Synnott. [Now being maintained by Byrne Reese and others on GitHub](http://github.com/endevver/mt-plugin-comment-subscribe).  
 License: [Artistic License 2.0](http://www.opensource.org/licenses/artistic-license-2.0.php)  
 Site: <http://plugins.movabletype.org/comment-subscribe/>
 
